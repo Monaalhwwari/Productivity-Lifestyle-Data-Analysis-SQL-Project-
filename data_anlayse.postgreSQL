@@ -1,4 +1,5 @@
 --- Top 12 Users Who USED Thier Phones ; 
+
 SELECT "User_ID",
 	"Daily_Phone_Hours"
 FROM public.data_anlayse 
@@ -6,6 +7,7 @@ ORDER BY "Daily_Phone_Hours" DESC
 FETCH FIRST 12 ROWS ONLY ;
 
 --- Average_work_productivity Depending on Device_Type and Job ;
+
 SELECT AVG ("Work_Productivity_Score") as AVERAGE ,
 	"Device_Type" ,
 	"Occupation"
@@ -14,12 +16,14 @@ GROUP BY "Device_Type" , "Occupation"
 ORDER BY AVERAGE DESC;
 
 --- Average Sleep_Hours Depending on the Job;
+
 SELECT "Occupation" ,
 	avg ("Sleep_Hours") as sleep
 FROM public.data_anlayse 
 GROUP BY "Occupation";
 
 --- if social media hours increased what's the impact on the work productivity;
+
 SELECT 
 CASE
 WHEN "Social_Media_Hours" >= 0 AND 2 >= "Social_Media_Hours" THEN 'low'
@@ -32,6 +36,7 @@ FROM public.data_anlayse
 GROUP by ratings;
 
 ---sleep hours relation with stress levels;
+
 SELECT 
 CASE
 WHEN "Sleep_Hours" <=4 THEN 'very low'
@@ -46,6 +51,7 @@ from public.data_anlayse
 GROUP by sleep;
 
 --- Caffiene intake and it's affect on average sleep_hours;
+
 SELECT 
 CASE 
 	WHEN "Caffeine_Intake_Cups" <= 1 THEN 'FINE'
@@ -62,6 +68,7 @@ FROM public.data_anlayse
 group by CAFFEINE;
 
 --- Which age_genre Uses the Phone more;
+
 WITH age_groups AS (SELECT 
 CASE 
 	WHEN "Age" <= 20 THEN 'young'
@@ -92,6 +99,7 @@ FROM public.data_anlayse
 GROUP BY "Device_Type";
 
 -- Top 5 users with highest stress, highest productivity, and highest phone usage 
+
 WITH top_work AS (
     SELECT 
         "User_ID",
@@ -120,16 +128,19 @@ SELECT * FROM top_use WHERE rank <= 5
 order by value,category;
 
 ---info about each person;
+
 create VIEW general_info AS SELECT "User_ID",
 	"Daily_Phone_Hours",
 	"Social_Media_Hours",
 	"Stress_Level",
 	"Work_Productivity_Score",
+
 	case 
 	when "Sleep_Hours" <= 4 then 'low'
 	when "Sleep_Hours" <=6 AND "Sleep_Hours" > 4 then 'med'
 	ELSE 'good'
 	end as sleep_rate,
+
 	case 
 	when "Caffeine_Intake_Cups" <= 2 then 'normal'
 	when "Caffeine_Intake_Cups" <=4 AND "Caffeine_Intake_Cups" > 2 then 'high'
