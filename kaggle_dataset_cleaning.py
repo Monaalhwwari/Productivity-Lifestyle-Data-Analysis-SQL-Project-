@@ -55,3 +55,5 @@ df["Device_Type"]=df["Device_Type"].replace({
     "IOS":"Iphone",
     "Android":"Android Phone",
 })
+
+df.to_csv("cleaned_smartphone_usage.csv", index=False)
